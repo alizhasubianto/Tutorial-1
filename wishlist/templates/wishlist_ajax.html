@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+
+{% block meta %}
+<title>Bootstrap demo</title>
+
+{% endblock meta %}
+
+{% block content %}
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Hi, {{nama}}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'wishlist:logout' %}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container"></div>
+        <script type="text/JavaScript">
+            var container = $('div.container');
+            $('input#get').click(function() {
+                $.ajax({
+                    type:'GET',
+                    url: 'wishlist/fixtures/initial_wishlist_data.json',
+                    dataType: 'json',
+                    succes: function (data) {
+                        $.each(data, function(index, item){
+                            $.each(item, function(key, value){
+                                container.append(key+':'+value+'</br>');
+                            });
+                            container.append(<br><br>)
+                        })
+                        
+                    }
+                })
+                
+            })
+        </script>
+    </div>
+        <table>
+            <tr>
+            <th>Nama Barang</th>
+            <th>Harga Barang</th>
+            <th>Deskripsi</th>
+            </tr>
+    
+            {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+            {% for barang in list_barang %}
+                <tr>
+                    <th>{{barang.nama_barang}}</th>
+                    <th>{{barang.harga_barang}}</th>
+                    <th>{{barang.deskripsi}}</th>
+                </tr>
+            {% endfor %}
+
+        </table>
+          
+    <h6>Sesi terakhir login: {{ last_login }}</h6>
+</body>
+
+
+{% endblock content %}
